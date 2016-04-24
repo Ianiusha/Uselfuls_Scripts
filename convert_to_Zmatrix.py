@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # Anna Tomberg
 # convert Avogadro's compact zMatrix to ORCA format
+# requires the last star after the end of the xyz coordinates
 
 
 import re
@@ -43,7 +44,7 @@ for x in range(line_counter, len(lines)):
 				m = re.search('([a-zA-Z]+)([0-9]+)', temp[i])
 				atoms.append(m.group(2))
 
-			else:				# value comlumns
+			else:				# value columns
 				values.append(temp[i])
 				
 		
@@ -56,7 +57,7 @@ fo.write('\n')
 		
 for line in (new_coords):
 	
-	print " ".join(str(x) for x in line)
+	print( " ".join(str(x) for x in line))
 	fo.write(" ".join(str(x) for x in line)+'\n')
 
 fo.close()
