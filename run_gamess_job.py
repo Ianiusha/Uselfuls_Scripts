@@ -35,10 +35,14 @@ call(["copy", input_file, path_to_gamess], shell=True)
 os.chdir(path_to_gamess)
 
 # CHECKING THAT THERE ARE NO OLD RESIDUAL FILES
-call(["del", "\\temp\\"+name+"*"], shell=True)
-call(["del", "\\src\\"+name+"*"], shell=True)
-
+try:
+	call(["del", path_to_gamess+"\\tmp\\"+name+".*"], shell=True)
+	call(["del", path_to_gamess+"\\scr\\"+name+".*"], shell=True)
+except:
+	print(">> No residual files found.")
+	
+# RUNNING GAMESS JOB
 call(["rungms.bat", input_file, version, number_of_processors, "0", output_name], shell=True)
 call(["copy", output_name, input_directory], shell=True)
 
-print ">> COMPLETE."
+print( ">> COMPLETE.")
