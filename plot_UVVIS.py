@@ -6,19 +6,23 @@
 
 import sys
 import matplotlib.pyplot as plt
+from math import pow
 
+c = 299792456 #ligh velocity in m/s
 
 # ------------- GET INPUT FILE ------------- #	
 if len(sys.argv) <= 1:
 	name = raw_input("Enter path to input: ")
 else:
 	name = sys.argv[1] 
+# ------------------------------------------ #
 
 # ---------------- GET DATA ---------------- #		
 fo = open(name, "r")
 lines = fo.readlines()
 fo.close()
 
+frequency = []
 wavelength = []
 intensity = []
 electric_dipole = []
@@ -28,13 +32,17 @@ quadrupole = []
 for line in lines:
 	t = line.split()	
 	if len(t) == 5:
-		wavelength.append(t[0])
+		frequency.append(t[0])
 		intensity.append(t[1])
 		electric_dipole.append(t[2])
 		magnetic_dipole.append(t[3])
 		quadrupole.append(t[4])
 # ------------------------------------------ #
 
+# -------- CONVERT FQ TO WAVELEN. ---------- #	
+for item in frequency:
+	wavelength.append((c*pow(10,-9)/item) #in nm
+# ------------------------------------------ #
 
 # ------------- PLOTTING STUFF ------------- #			
 
