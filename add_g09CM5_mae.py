@@ -16,8 +16,25 @@ NOTE: it is important that the sequence of atoms in the log and the mae files
 are the same.
 """
 
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 27 09:02:54 2017
+
+@author: Anna Tomberg
+
+This script is used to add CM5 charges found in a .log file obtained from a 
+gaussian calculation into an .mae file.
+(In Gaussian : Pop=CM5)
+
+How to use the script (provided you have python installed):
+[user]$ python add_g09CM5_mae.py my_gaussian.log my_structure.mae
+
+This will write the CM5 charges from the log into the mae file.
+NOTE: it is important that the sequence of atoms in the log and the mae files 
+are the same.
+"""
+
 import sys
-import re
 
 #----------------------#
 # Get arguments
@@ -72,10 +89,14 @@ for line in data:
     counter = counter +1
     
     if line.startswith(" m_atom["):
+        h = counter +8
         counter = counter + 11 #now we are at the line where 1st atom is
+        
         break
 
-header = "".join(data[:counter] )
+header = "".join(data[:h] )
+header = header + """  r_m_charge1\n"""
+header = header + "".join(data[h:counter] )
 
 atom_line = []
 m = """"""
@@ -98,13 +119,13 @@ while not(data[counter].startswith("  :::")) and counter < len(data) and atom_co
 print m
 
 tail = "".join(data[counter:] )
-print tail
+#print tail
 #----------------------#
 
 
 #----------------------#
 # Write new data to mae file
-print " I'm writing the CM5 charges into the .mae file now."
+print "I'm writing the CM5 charges into the .mae file now."
 fw = open(mae_file, "w")
 fw.write(header)
 fw.write(m)
