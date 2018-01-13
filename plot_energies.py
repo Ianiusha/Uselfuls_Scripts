@@ -38,7 +38,8 @@ if we_continue:
 		if re.search("Total Energy       :     ", line):
 			temp = line.split()[3]
 			Energy.append(temp)
-			
+# convert string to float
+	Energy=[(lambda x: float(x))(x) for x in Energy]
 	
 
 # ------------- PLOTTING STUFF ------------- #			
