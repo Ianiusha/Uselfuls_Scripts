@@ -33,14 +33,22 @@ else :
 	
 	
 if we_continue:
-	Energy = []
-	for line in lines:
-		if re.search("Total Energy       :     ", line):
-			temp = line.split()[3]
-			Energy.append(temp)
+        flagD3 = False
+        spattern = "Total Energy       :     "
+        pos = 3
+        Energy = []
+        for line in lines:
+                if re.search(spattern, line):
+                        temp = line.split()[pos]
+                        Energy.append(temp)
+                if re.search("DFTD3", line):
+                        if flagD3 == False:
+                                flagD3 = True
+                                spattern = "FINAL SINGLE POINT ENERGY"
+                                pos = 4
+                                Energy = []
 # convert string to float
-	Energy=[(lambda x: float(x))(x) for x in Energy]
-	
+        Energy=[(lambda x: float(x))(x) for x in Energy]
 
 # ------------- PLOTTING STUFF ------------- #			
 # If only SCF cycle, plot OPTION 1.
@@ -51,13 +59,16 @@ if we_continue:
 if Energy != []:
 
 	
-	plt.figure()
+	fig1 = plt.figure()
 	
 	ax = plt.subplot(111)	
-	plt.title("Energy")
+        plt.subplots_adjust(left=0.17)
+        plt.title("Energy along the scanned coordinate")
+        ax.set_xlabel('PES scan snapshot')
+        ax.set_ylabel('Energy, Eh')
+
 	ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 	ax.plot(list(range(1, len(Energy)+1)), Energy, 'r-')
-	
-
+	fig1.savefig('figure.png', format='png', dpi=600)
 
 plt.show()
