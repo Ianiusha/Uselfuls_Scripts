@@ -33,14 +33,22 @@ else :
 	
 	
 if we_continue:
-	Energy = []
-	for line in lines:
-		if re.search("Total Energy       :     ", line):
-			temp = line.split()[3]
-			Energy.append(temp)
+        flagD3 = False
+        spattern = "Total Energy       :     "
+        pos = 3
+        Energy = []
+        for line in lines:
+                if re.search(spattern, line):
+                        temp = line.split()[pos]
+                        Energy.append(temp)
+                if re.search("DFTD3", line):
+                        if flagD3 == False:
+                                flagD3 = True
+                                spattern = "FINAL SINGLE POINT ENERGY"
+                                pos = 4
+                                Energy = []
 # convert string to float
-	Energy=[(lambda x: float(x))(x) for x in Energy]
-	
+        Energy=[(lambda x: float(x))(x) for x in Energy]
 
 # ------------- PLOTTING STUFF ------------- #			
 # If only SCF cycle, plot OPTION 1.
