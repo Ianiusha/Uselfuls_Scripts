@@ -12,7 +12,7 @@ from subprocess import call
 path_to_gamess = "C:\gamess.64" #DEFAULT
 
 # HERE GIVE THE VERSION OF GAMESS YOU HAVE:
-version = "13-64.pgi.linux.blas" 
+version = "2021.R2.P2.intel.msucc" 
 
 
 if len(sys.argv) <= 1:
